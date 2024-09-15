@@ -1,7 +1,6 @@
 const axios = require('axios');
 const crypto = require('crypto');
 
-// Vercel serverless function handler
 module.exports = async (req, res) => {
   const timestamp = Date.now();
   const query = `timestamp=${timestamp}`;
@@ -10,13 +9,18 @@ module.exports = async (req, res) => {
   try {
     const response = await axios.get(`https://api.binance.com/api/v3/account?${query}&signature=${signature}`, {
       headers: {
-        'X-MBX-APIKEY': process.env.API_KEY
-      }
+        'X-MBX-APIKEY': process.env.API_KEY,
+      },
     });
 
     res.status(200).json(response.data.balances); // Send balances to the frontend
   } catch (error) {
     console.error('Error fetching balance from Binance API:', error.response?.data || error.message);
-    res.status(500).json({ error: 'Failed to fetch balances' });
+    
+    // Return the error details to the frontend for easier debugging
+    res.status(500).json({
+      error: 'Failed to fetch balances',
+      details: error.response?.data || error.message,
+    });
   }
 };
