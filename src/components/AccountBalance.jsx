@@ -26,7 +26,7 @@ const AccountBalance = () => {
     const fetchBalancesAndPrices = async () => {
       try {
         // Fetch balances from your backend
-        const response = await axios.get('http://localhost:3001/api/balance');
+        const response = await axios.get('https://coin-status-ten.vercel.app/api/balance');
 
         // Filter out assets with 0 balance
         const nonZeroBalances = response.data.filter(balance => parseFloat(balance.free) > 0);
