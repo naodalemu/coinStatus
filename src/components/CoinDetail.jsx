@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { Line } from 'react-chartjs-2'; // Import Chart component
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import LoadingSpinner from './LoadingSpinner';
+
+// Register Chart.js components
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const CoinDetail = () => {
   const { id } = useParams(); // Get coin ID from the URL parameters
   const [coin, setCoin] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [history, setHistory] = useState([]); // State for historical data
 
   // Fetch coin details from the CoinGecko API
   useEffect(() => {
@@ -21,11 +28,37 @@ const CoinDetail = () => {
       }
     };
 
+    // Fetch 7-day historical price data
+    const fetchHistory = async () => {
+      try {
+        const response = await fetch(`https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=7`);
+        const data = await response.json();
+        setHistory(data.prices); // Store historical price data
+      } catch (error) {
+        console.error('Failed to fetch historical data', error);
+      }
+    };
+
     fetchCoin();
+    fetchHistory();
   }, [id]);
 
-  if (loading) return <div className="text-center mt-10 text-lg">Loading...</div>;
+  if (loading) return <LoadingSpinner />;
   if (error) return <div className="text-center mt-10 text-lg text-red-500">{error}</div>;
+
+  // Prepare data for the chart
+  const chartData = {
+    labels: history.map(price => new Date(price[0]).toLocaleDateString()), // Dates as labels
+    datasets: [
+      {
+        label: `${coin?.name} Price (USD)`,
+        data: history.map(price => price[1]), // Prices as data points
+        borderColor: '#4F46E5',
+        backgroundColor: 'rgba(79, 70, 229, 0.2)',
+        tension: 0.2, // Smooth curve for the line
+      },
+    ],
+  };
 
   return (
     <div className="max-w-7xl m-auto px-4 py-8">
@@ -80,6 +113,12 @@ const CoinDetail = () => {
                 <p className="mt-2 text-2xl font-bold text-purple-900">${coin.market_data.atl.usd.toLocaleString()}</p>
               </div>
             </div>
+          </div>
+
+          {/* 7-Day Price History Chart */}
+          <div className="mt-8">
+            <h2 className="text-2xl font-semibold mb-4">Price History (Last 7 Days)</h2>
+            <Line data={chartData} />
           </div>
 
           {/* Back to List Button */}

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 const CoinList = () => {
   const [coins, setCoins] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -13,17 +12,14 @@ const CoinList = () => {
         const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd');
         const data = await response.json();
         setCoins(data);
-        setLoading(false);
       } catch (error) {
         setError('Failed to fetch coins');
-        setLoading(false);
       }
     };
 
     fetchCoins();
   }, []);
 
-  if (loading) return <div className="text-center mt-10 text-lg">Loading...</div>;
   if (error) return <div className="text-center mt-10 text-lg text-red-500">{error}</div>;
 
   return (
