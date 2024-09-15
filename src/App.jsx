@@ -27,6 +27,7 @@ const App = () => {
   return (
     <Router>
       <Navbar />
+      <h1>Backend Staus: {status}</h1>
       <Routes>
         <Route path="/" element={<CoinList />} />
         <Route path="/coin/:id" element={<CoinDetail />} />
