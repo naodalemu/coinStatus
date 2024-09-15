@@ -14,7 +14,7 @@ const App = () => {
     // Call the health check endpoint when the app launches
     const checkBackend = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/health');
+        const response = await axios.get('/api/health');
         setStatus(response.data.message); // Set the status if API is up
       } catch (error) {
         setStatus('Backend is not reachable');
