@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import LoadingSpinner from './LoadingSpinner';
+import ErrorMessage from './ErrorMessage';
 
 const AccountBalance = () => {
   const [balances, setBalances] = useState([]);
@@ -41,8 +42,9 @@ const AccountBalance = () => {
         setBalances(nonZeroBalances);
         setLoading(false);
       } catch (err) {
-        setError('Failed to fetch account balance');
+        setError(err.message);
         setLoading(false);
+        console.log(err.message)
       }
     };
 
@@ -57,7 +59,7 @@ const AccountBalance = () => {
   };
 
   if (loading) return <LoadingSpinner />;
-  if (error) return <div>{error}</div>;
+  if (error) return <ErrorMessage message={error} />;
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">

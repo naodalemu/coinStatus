@@ -26,12 +26,22 @@ app.get('/api/balance', async (req, res) => {
         'X-MBX-APIKEY': apiKey
       }
     });
-    res.json(response.data.balances); // Send balances to frontend
+
+    // Log the full response for debugging
+    console.log('Binance API Response:', response.data);
+    
+    // Check if response contains 'balances'
+    if (response.data.balances) {
+      res.json(response.data.balances); // Send balances to frontend
+    } else {
+      res.status(500).json({ error: 'Unexpected response format', data: response.data });
+    }
   } catch (error) {
     console.error('Error fetching balance from Binance API:', error.response?.data || error.message);
-    res.status(500).json({ error: 'Failed to fetch balances' });
+    res.status(500).json({ error: 'Failed to fetch balances', details: error.response?.data || error.message });
   }
 });
+
 
 app.listen(port, () => {
   console.log(`Backend server running on http://localhost:${port}`);
