@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import ErrorMessage from './ErrorMessage';
 
 
 const CoinList = () => {
@@ -13,14 +14,14 @@ const CoinList = () => {
         const data = await response.json();
         setCoins(data);
       } catch (error) {
-        setError('Failed to fetch coins');
+        setError('Failed to fetch coins, please try it after a minute!');
       }
     };
 
     fetchCoins();
   }, []);
 
-  if (error) return <div className="text-center mt-10 text-lg text-red-500">{error}</div>;
+  if (error) return <ErrorMessage message={error} />;
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">

@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Line } from 'react-chartjs-2'; // Import Chart component
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import LoadingSpinner from './LoadingSpinner';
+import ErrorMessage from './ErrorMessage';
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -44,7 +45,7 @@ const CoinDetail = () => {
   }, [id]);
 
   if (loading) return <LoadingSpinner />;
-  if (error) return <div className="text-center mt-10 text-lg text-red-500">{error}</div>;
+  if (error) return <ErrorMessage message={error} />;
 
   // Prepare data for the chart
   const chartData = {
@@ -64,9 +65,17 @@ const CoinDetail = () => {
     <div className="max-w-7xl m-auto px-4 py-8">
       {coin && (
         <div className="bg-white rounded-lg p-6">
-          <div className="flex items-center">
-            <img src={coin.image.large} alt={coin.name} className="w-16 h-16 mr-4" />
-            <h1 className="text-3xl font-bold">{coin.name} ({coin.symbol.toUpperCase()})</h1>
+          <div className='flex justify-between'>
+            <div className="flex items-center">
+              <img src={coin.image.large} alt={coin.name} className="w-16 h-16 mr-4" />
+              <h1 className="text-3xl font-bold">{coin.name} ({coin.symbol.toUpperCase()})</h1>
+            </div>
+              <Link
+              to="/"
+              className="mt-8 inline-block bg-gray-700 hover:bg-gray-800 text-white py-2 px-4 rounded-lg"
+              >
+              Back to List
+            </Link>
           </div>
 
           {/* Description Section */}
@@ -124,7 +133,7 @@ const CoinDetail = () => {
           {/* Back to List Button */}
           <Link
             to="/"
-            className="mt-8 inline-block bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
+            className="mt-8 inline-block bg-gray-700 hover:bg-gray-800 text-white py-2 px-4 rounded-lg"
           >
             Back to List
           </Link>

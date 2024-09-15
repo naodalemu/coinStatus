@@ -12,8 +12,8 @@ const Navbar = () => {
 
         {/* Navigation Links */}
         <div className="space-x-6">
-          <Link to="/" className="text-gray-300 hover:text-white transition duration-300">Home</Link>
-          <Link to="/balance" className="text-gray-300 hover:text-white transition duration-300">Balance</Link>
+          <Link to="/" className="text-gray-300 hover:text-white transition duration-300 font-bold">Home</Link>
+          <Link to="/balance" className="text-gray-300 hover:text-white transition duration-300 font-bold">Balance</Link>
         </div>
       </div>
     </nav>
