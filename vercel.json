@@ -4,7 +4,7 @@
   ],
   "functions": {
     "api/*": {
-      "regions": ["arn1"]
+      "regions": ["hnd1"]
     }
   }
 }
