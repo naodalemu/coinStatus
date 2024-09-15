@@ -36,3 +36,7 @@ app.get('/api/balance', async (req, res) => {
 app.listen(port, () => {
   console.log(`Backend server running on http://localhost:${port}`);
 });
+
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ message: 'API is running' });
+});
