@@ -1,6 +1,6 @@
 # Coin Status - Crypto Dashboard
 
-This project is a **cryptocurrency dashboard** that fetches and displays account balances from the **Binance API** using a **React frontend** and a **serverless backend** deployed on **Vercel**. The backend securely fetches account data using Binance API credentials and calculates the balance in USDT.
+This project is a **cryptocurrency dashboard** that fetches and displays account balances from the **Binance API** using a **React frontend** and a **serverless backend** deployed on **Vercel**. The backend securely fetches account data using Binance API credentials and calculates the balance in USDT. Remember to put the API_KEY and API_SECRET in the .env file on the server like vercel.
 
 ## Live Demo
 
